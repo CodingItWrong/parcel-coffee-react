@@ -1,3 +1,3 @@
 import React from 'react'
 
-export default App = -> <h1>Hello, Coffee React!</h1>
+export default App = ({name}) -> <h1>Hello, {name}!</h1>
