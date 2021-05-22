@@ -1,2 +1,3 @@
-export default App =
-  run: -> console.log('Hello, Module!')
+import React from 'react'
+
+export default App = -> <h1>Hello, Coffee React!</h1>
