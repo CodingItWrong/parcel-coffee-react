@@ -1,6 +1,5 @@
-import React from 'react';
 import PouchDB from 'pouchdb';
-import {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import {v4 as uuid} from 'uuid';
 
 // Connects to a PouchDB database synced to a remote CouchDB database. Loads all
@@ -14,10 +13,10 @@ export function PouchProvider({children, dbServer, databaseName}) {
   const [docs, setDocs] = useState(null);
 
   useEffect(() => {
-    function syncToRemote({localDb}) {
+    function syncToRemote() {
       const remoteIdentifier = `${dbServer}/${databaseName}`;
       const remoteDb = new PouchDB(remoteIdentifier);
-      const syncHandler = localDb
+      const syncHandler = db
         .sync(remoteDb, {
           live: true,
           retry: true,
@@ -38,26 +37,25 @@ export function PouchProvider({children, dbServer, databaseName}) {
       return syncHandler;
     }
 
-    if (!db) {
-      const localDb = new PouchDB(databaseName);
-      const syncHandler = syncToRemote({localDb});
-      setDb(localDb);
-
-      const loadDocumentsIntoState = () =>
-        localDb.allDocs({include_docs: true}).then(result => {
-          const newDocs = result.rows.map(row => row.doc);
-          setDocs(newDocs);
-        });
-
-      loadDocumentsIntoState();
-
-      localDb.changes({since: 'now', live: true}).on('change', change => {
-        loadDocumentsIntoState();
+    const loadDocumentsIntoState = () =>
+      db.allDocs({include_docs: true}).then(result => {
+        const newDocs = result.rows.map(row => row.doc);
+        setDocs(newDocs);
       });
 
-      return () => {
-        syncHandler.cancel();
-      };
+    if (!db) {
+      setDb(new PouchDB(databaseName));
+      // triggers a rerender
+    } else {
+      const syncHandler = syncToRemote();
+
+      loadDocumentsIntoState();
+      db.changes({since: 'now', live: true}).on(
+        'change',
+        loadDocumentsIntoState,
+      );
+
+      return () => syncHandler.cancel();
     }
   }, [db, dbServer, databaseName]);
 
