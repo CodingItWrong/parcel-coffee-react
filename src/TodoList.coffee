@@ -1,3 +1,4 @@
+import {complement, prop} from 'ramda'
 import React from 'react'
 import {ErrorMessage, Formik} from 'formik'
 import * as yup from 'yup'
@@ -53,8 +54,8 @@ export default TodoList = ->
   {docs: todos} = do useImmerPouch
   return null unless todos
 
-  incompleteTodos = todos.filter (todo) -> !todo.complete
-  completeTodos = todos.filter (todo) -> todo.complete
+  incompleteTodos = todos.filter complement prop 'complete'
+  completeTodos = todos.filter prop 'complete'
 
   <div>
     <h1>Todos</h1>
