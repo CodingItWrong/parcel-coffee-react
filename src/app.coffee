@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-export default App = () ->
+export default App = ->
   [count, setCount] = useState 0
 
   <div>
