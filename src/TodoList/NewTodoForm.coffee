@@ -18,7 +18,7 @@ export default NewTodoForm = ->
     validationSchema={schema}
     onSubmit={handleCreate}
   >
-    {({values, handleChange, handleSubmit}) -> (
+    {({values, handleChange, handleSubmit}) ->
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -29,5 +29,5 @@ export default NewTodoForm = ->
         />
         <ErrorMessage name="name" />
         <button type="submit">Add</button>
-      </form>)}
+      </form>}
   </Formik>
