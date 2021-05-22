@@ -29,8 +29,7 @@ NewTodoForm = ->
         />
         <ErrorMessage name="name" />
         <button type="submit">Add</button>
-      </form>
-    )}
+      </form>)}
   </Formik>
 
 Todo = ({todo}) ->
@@ -44,8 +43,7 @@ Todo = ({todo}) ->
     {!todo.complete &&
       <button onClick={completeTodo}>
         Complete
-      </button>
-    }
+      </button>}
     <button onClick={deleteTodo}>
       Delete
     </button>
@@ -64,13 +62,11 @@ export default TodoList = ->
     <h2>Incomplete Todos</h2>
     <ul>
       {incompleteTodos.map (todo) ->
-        <Todo key={todo._id} todo={todo} />
-      }
+        <Todo key={todo._id} todo={todo} />}
     </ul>
     <h2>Complete Todos</h2>
     <ul>
       {completeTodos.map (todo) ->
-        <Todo key={todo._id} todo={todo} />
-      }
+        <Todo key={todo._id} todo={todo} />}
     </ul>
   </div>
