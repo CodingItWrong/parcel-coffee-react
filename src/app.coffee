@@ -1,3 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-export default App = ({name}) -> <h1>Hello, {name}!</h1>
+export default App = () ->
+  [count, setCount] = useState 0
+
+  <div>
+    Count: {count}
+    <button onClick={-> setCount count + 1}>
+      Increment
+    </button>
+  </div>
