@@ -9,6 +9,7 @@
     "build": "parcel build index.html"
   },
   "devDependencies": {
+    "coffeescript": "^2.5.1",
     "parcel-bundler": "^1.12.5"
   }
 }
