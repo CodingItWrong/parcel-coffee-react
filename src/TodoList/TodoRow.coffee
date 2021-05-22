@@ -9,7 +9,7 @@ export default TodoRow = ({todo}) ->
 
   <li>
     {todo.name}
-    {!todo.complete &&
+    {todo.complete ||
       <button onClick={completeTodo}>
         Complete
       </button>}
