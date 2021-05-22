@@ -1,8 +1,11 @@
 import React, {useState} from 'react'
-import TodoContainer from './TodoContainer'
+import {PouchProvider} from './PouchContext'
 import TodoList from './TodoList'
 
+DB_SERVER = process.env.REACT_APP_COUCH_URL
+DATABASE_NAME = 'reacttodotemplate'
+
 export default App = ->
-  <TodoContainer>
-    {(todoProps) -> <TodoList {...todoProps} />}
-  </TodoContainer>
+  <PouchProvider dbServer={DB_SERVER} databaseName={DATABASE_NAME}>
+    <TodoList />
+  </PouchProvider>

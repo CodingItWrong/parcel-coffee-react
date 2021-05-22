@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
+import useImmerPouch from './useImmerPouch';
 
-NewTodoForm = ({createTodo}) ->
+NewTodoForm = ->
+  {createDoc} = useImmerPouch()
   [newTodoName, setNewTodoName] = useState ''
 
   handleCreate = (submitEvent) ->
     do submitEvent.preventDefault
     return unless newTodoName
-    createTodo newTodoName
-    setNewTodoName ''
+    createDoc({name: newTodoName}).then(-> setNewTodoName '')
 
   <form onSubmit={handleCreate}>
     <input
@@ -21,46 +22,44 @@ NewTodoForm = ({createTodo}) ->
     </button>
   </form>
 
-Todo = ({todo, completeTodo, deleteTodo}) ->
+Todo = ({todo}) ->
+  {updateDoc, deleteDoc} = useImmerPouch()
+
+  completeTodo = -> updateDoc todo, (draft) -> draft.complete = true
+  deleteTodo = -> deleteDoc todo
+
   <li>
     {todo.name}
     {!todo.complete && (
-      <button onClick={-> completeTodo todo}>
+      <button onClick={completeTodo}>
         Complete
       </button>
     )}
-    <button onClick={-> deleteTodo todo}>
+    <button onClick={deleteTodo}>
       Delete
     </button>
   </li>
 
-export default TodoList = ({
-  todos,
-  createTodo,
-  completeTodo,
-  deleteTodo,
-}) ->
+export default TodoList = ->
+  {docs: todos} = useImmerPouch();
+  return null unless todos
+
   incompleteTodos = todos.filter((todo) -> !todo.complete)
   completeTodos = todos.filter((todo) -> todo.complete)
 
   <div>
     <h1>Todos</h1>
-    <NewTodoForm createTodo={createTodo} />
+    <NewTodoForm />
     <h2>Incomplete Todos</h2>
     <ul>
       {incompleteTodos.map((todo) -> (
-        <Todo
-          key={todo.id}
-          todo={todo}
-          completeTodo={completeTodo}
-          deleteTodo={deleteTodo}
-        />
+        <Todo key={todo._id} todo={todo} />
       ))}
     </ul>
     <h2>Complete Todos</h2>
     <ul>
       {completeTodos.map((todo) -> (
-        <Todo key={todo.id} todo={todo} deleteTodo={deleteTodo} />
+        <Todo key={todo._id} todo={todo} />
       ))}
     </ul>
   </div>
