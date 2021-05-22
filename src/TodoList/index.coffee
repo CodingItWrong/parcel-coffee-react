@@ -16,12 +16,12 @@ export default TodoList = ->
     <NewTodoForm />
     <h2>Incomplete Todos</h2>
     <ul>
-      {incomplete(todos).map (todo) ->
+      {(incomplete todos).map (todo) ->
         <TodoRow key={todo._id} todo={todo} />}
     </ul>
     <h2>Complete Todos</h2>
     <ul>
-      {complete(todos).map (todo) ->
+      {(complete todos).map (todo) ->
         <TodoRow key={todo._id} todo={todo} />}
     </ul>
   </div>
