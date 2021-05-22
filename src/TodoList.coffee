@@ -8,7 +8,8 @@ NewTodoForm = ->
   handleCreate = (submitEvent) ->
     do submitEvent.preventDefault
     return unless newTodoName
-    createDoc({name: newTodoName}).then(-> setNewTodoName '')
+    await createDoc({name: newTodoName})
+    setNewTodoName ''
 
   <form onSubmit={handleCreate}>
     <input

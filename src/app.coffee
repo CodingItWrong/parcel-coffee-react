@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime'
 import React, {useState} from 'react'
 import {PouchProvider} from './PouchContext'
 import TodoList from './TodoList'
