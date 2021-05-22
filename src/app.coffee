@@ -1,2 +1,2 @@
-name = "CoffeeScript"
-console.log "Hello, #{name}!"
+export default App =
+  run: -> console.log('Hello, Module!')
